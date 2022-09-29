@@ -1,0 +1,38 @@
+<img src="{{ asset('img/majdi.jpg') }}" alt="student" height="400px" width="330px">
+<h1 style = "color:red">La classe {{ v1 }} est dans {{ v2 }}</h1>
+<table>
+    <tr>
+        <td>Ref</td>
+        <td>Titre</td>
+        <td>Description</td>
+        <td>Nombre_Participants</td>
+    </tr>
+    {% if listformation is empty %}
+    <h6>This table is empry!!</h6>
+    {% else %}
+    <table border="1">
+{% for f in listformation %}
+    <tr>
+        <td>{{ f.ref }}</td>
+        <td>{{ f.Titre }}</td>
+        <td>{{ f.Description }}</td>
+        <td>{{ f.nb_participants }}</td>
+        <td>
+        <a>{% if f.nb_participants == 0 %}
+            <a href="{{ path('app_reservation') }}">Participer</a>
+        {% else %}
+            Complet
+            {% endif %}
+
+        </td>
+    </tr>
+    {% endfor %}
+        {% endif %}
+</table>
+    <h3 style="color: gold">Nombre de formation = {{ listformation |length }}</h3>
+
+    {% set x=19 %}
+    x= {{ x }}
+
+
+
