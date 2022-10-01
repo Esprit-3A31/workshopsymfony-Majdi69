@@ -13,26 +13,34 @@
     <table border="1">
 {% for f in listformation %}
     <tr>
+    {% if f.Description == "theorique" %}
         <td>{{ f.ref }}</td>
         <td>{{ f.Titre }}</td>
         <td>{{ f.Description }}</td>
         <td>{{ f.nb_participants }}</td>
         <td>
         <a>{% if f.nb_participants == 0 %}
-            <a href="{{ path('app_reservation') }}">Participer</a>
+            <a href="{{ path('app_detail') }}">Participer</a>
         {% else %}
             Complet
             {% endif %}
-
         </td>
     </tr>
+    {% endif %}
     {% endfor %}
         {% endif %}
 </table>
     <h3 style="color: gold">Nombre de formation = {{ listformation |length }}</h3>
 
-    {% set x=19 %}
-    x= {{ x }}
+{% set maxvalue = 0 %}
+    {% for i in listformation %}
+    {% set maxvalue = max(i.nb_participants, maxvalue) %}
+    {% endfor %}
+    {% for j in listformation %}
+    {% if j.nb_participants==maxvalue %}
+    le titre de la formation ayant le plus grand nombre de participants est : {{ j.Titre}}
+    {% endif %}
+    {% endfor %}
 
 
 
