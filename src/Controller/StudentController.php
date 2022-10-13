@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Student;
 use App\Repository\StudentRepository;
+use ContainerCx7yU8t\getForm_ChoiceListFactory_CachedService;
+use Doctrine\DBAL\Types\DateType;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -59,6 +64,20 @@ class StudentController extends AbstractController
     {
         $clubs=$repository->findAll();
         return $this->render("student/student.html.twig",array('tabstudent'=>$clubs));
+    }
+
+    #[Route('/students', name: 'app_AddStudents')]
+    public function add(Student $student):Response{
+        $task=new Task();
+        $task->setTask('Write anything');
+
+        $form= $this->createFormBuilder($task)
+            ->add('task',TextType::class)
+            ->add('DudDate',DateType::class)
+            ->add('save',SubmitType::class,['lable' => 'Create Task'])
+        ->getForm();
+        return $this->renderForm("student/student.html.twig",['form' => $form]);
+
     }
 
 }
