@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ClubRepository;
+use App\Repository\StreetRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ClubRepository::class)]
-class Club
+#[ORM\Entity(repositoryClass: StreetRepository::class)]
+class Street
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,7 +17,7 @@ class Club
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $nbrStudent = null;
+    private ?float $lenght = null;
 
     public function getId(): ?int
     {
@@ -36,14 +36,14 @@ class Club
         return $this;
     }
 
-    public function getNbrStudent(): ?int
+    public function getLenght(): ?float
     {
-        return $this->nbrStudent;
+        return $this->lenght;
     }
 
-    public function setNbrStudent(int $nbrStudent): self
+    public function setLenght(float $lenght): self
     {
-        $this->nbrStudent = $nbrStudent;
+        $this->lenght = $lenght;
 
         return $this;
     }

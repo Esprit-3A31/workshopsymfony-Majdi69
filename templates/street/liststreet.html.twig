@@ -1,0 +1,9 @@
+<a href="#">Add street</a>
+<h5>List Street</h5>
+{% for s in tabStreet %}
+    name: {{ s.name }}
+    Lenght:{{ s.lenght }}
+    <a href="#">Update</a>
+    <a href="#">Delete</a>
+    <br>
+{% endfor %}

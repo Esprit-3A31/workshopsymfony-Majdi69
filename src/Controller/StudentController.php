@@ -2,13 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Street;
 use App\Entity\Student;
+use App\Form\StreetType;
+use App\Form\StudentType;
+use App\Repository\ClassRooMRepository;
+use App\Repository\StreetRepository;
 use App\Repository\StudentRepository;
 use ContainerCx7yU8t\getForm_ChoiceListFactory_CachedService;
 use Doctrine\DBAL\Types\DateType;
 use Doctrine\DBAL\Types\TextType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -65,19 +72,26 @@ class StudentController extends AbstractController
         $clubs=$repository->findAll();
         return $this->render("student/student.html.twig",array('tabstudent'=>$clubs));
     }
-
-    #[Route('/students', name: 'app_AddStudents')]
-    public function add(Student $student):Response{
-        $task=new Task();
-        $task->setTask('Write anything');
-
-        $form= $this->createFormBuilder($task)
-            ->add('task',TextType::class)
-            ->add('DudDate',DateType::class)
-            ->add('save',SubmitType::class,['lable' => 'Create Task'])
-        ->getForm();
-        return $this->renderForm("student/student.html.twig",['form' => $form]);
-
+    #[Route('/addStudentForm', name: 'addStudentForm')]
+    public function addStreetForm(StudentRepository $repository,Request  $request,ManagerRegistry $doctrine)
+    {
+        $student= new  Student();
+        $form= $this->createForm(StudentType::class,$student);
+        $form->handleRequest($request) ;
+        if($form->isSubmitted()){
+        $repository->add($student,true);
+            return  $this->redirectToRoute("addStudentForm");
+        }
+        return $this->renderForm("student/add.html.twig",array("FormStudent"=>$form));
     }
 
+    #[Route('/removeclass/{id}', name: 'remove_class')]
+    public function removestreet(ManagerRegistry $doctrine,$id,ClassRooMRepository $repository)
+    {
+        $classroom= $repository->find($id);
+        $em= $doctrine->getManager();
+        $em->remove($classroom);
+        $em->flush();
+        return $this->redirectToRoute("addStudentForm");
+    }
 }

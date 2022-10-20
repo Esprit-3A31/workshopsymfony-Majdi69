@@ -15,6 +15,10 @@ class Student
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
+    #[ORM\ManyToOne(inversedBy: 'student')]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
+    private ?ClassRooM $classRooM = null;
+
     public function getRef(): ?String
     {
         return $this->ref;
@@ -37,4 +41,21 @@ class Student
 
         return $this;
     }
+
+    public function getClassRooM(): ?ClassRooM
+    {
+        return $this->classRooM;
+    }
+
+    public function setClassRooM(?ClassRooM $classRooM): self
+    {
+        $this->classRooM = $classRooM;
+
+        return $this;
+    }
+
+   /* public function toString(){
+
+        return(string)$this->getUsername();
+    }*/
 }
